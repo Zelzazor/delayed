@@ -7,7 +7,13 @@ Another Node.js web framework inspired by Express. This is a proof of concept fo
 Simply execute the following command: 
 
 ```bash
-$ npm install delayed
+# npm
+
+$ npm install delayed-web
+
+# yarn
+
+$ yarn add delayed-web
 ```
 
 ## Usage
@@ -15,7 +21,7 @@ $ npm install delayed
 You can use Delayed by importing the dependency:
 
 ```js
-const delayed = require("delayed");
+const delayed = require("delayed-web");
 
 const app = delayed();
 ```
@@ -36,7 +42,7 @@ app.post('/', (req, res)=>{
 This module is also capable of simple routing:
 
 ```js
-const delayed = require("delayed");
+const delayed = require("delayed-web");
 
 const app = delayed();
 
