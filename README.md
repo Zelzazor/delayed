@@ -58,6 +58,14 @@ app.use('/users', userRouter); // /users/hello
 
 ```
 
+Finally, to start your application, you only need to get it to listen to an specified port:
+
+```js
+app.listen(3000, ()=>{
+    console.log("Listening to http://localhost:3000");
+})
+```
+
 ## The Future of Delayed
 
 This is only a learning project. Is not going to be very ambitious (I was just inspired by express and tried to recreate some of its features).
