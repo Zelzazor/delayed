@@ -4,5 +4,13 @@
   "description": "This is an attempt to reverse engineer express",
   "main": "index.js",
   "author": "Felipe Ramirez",
-  "license": "MIT"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
