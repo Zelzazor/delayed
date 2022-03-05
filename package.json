@@ -1,7 +1,7 @@
 {
   "name": "delayed-web",
-  "version": "1.0.0",
-  "description": "This is an attempt to reverse engineer express",
+  "version": "1.0.1",
+  "description": "This is a JavaScript Web Framework inspired by Express",
   "main": "index.js",
   "author": "Felipe Ramirez",
   "scripts": {

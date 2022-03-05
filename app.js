@@ -27,7 +27,6 @@ function app() {
             }
         }); 
 
-        console.log(getRoutes);
         server.listen(port);
         callback();
 
