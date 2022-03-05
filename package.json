@@ -1,6 +1,6 @@
 {
   "name": "delayed-web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is a JavaScript Web Framework inspired by Express",
   "main": "index.js",
   "author": "Felipe Ramirez",
@@ -12,8 +12,5 @@
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.15"
-  },
-  "dependencies": {
-    "delayed-web": "^1.0.0"
   }
 }
