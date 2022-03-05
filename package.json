@@ -1,6 +1,6 @@
 {
   "name": "delayed-web",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is a JavaScript Web Framework inspired by Express",
   "main": "index.js",
   "author": "Felipe Ramirez",
