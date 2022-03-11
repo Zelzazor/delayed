@@ -1,8 +1,10 @@
 const http = require('http');
 
 function app() {
-    let getRoutes = {};
-    let postRoutes = {};
+    const getRoutes = {};
+    const postRoutes = {};
+    const putRoutes = {};
+    const deleteRoutes = {};
 
     function get(path, handler) {
         getRoutes[path] = handler;
@@ -12,20 +14,53 @@ function app() {
         postRoutes[path] = handler;
     }
 
+    function put(path, handler) {
+        putRoutes[path] = handler;
+    }
+
+    function del(path, handler) {
+        deleteRoutes[path] = handler;
+    }
+
+
     function listen(port, callback = () => { }) {
         
         const server = http.createServer(function (req, res) {
             const url = req.url;
             const method = req.method;
-            const handler = method === 'GET' ? getRoutes[url] : postRoutes[url];
+            let handler = null;
+
+            switch(method) {
+                case 'GET':
+                    handler = getRoutes[url];
+                    break;
+                case 'POST':
+                    handler = postRoutes[url];
+                    break;
+                case 'PUT':
+                    handler = putRoutes[url];
+                    break;
+                case 'DELETE':
+                    handler = deleteRoutes[url];
+                    break;
+                default:
+                    handler = null;
+                    break;
+            }
 
             if (handler) { 
                 handler(req, res);
             } else {
                 res.statusCode = 404;
-                res.end('Not found');
+                res.end(`Cannot ${method} ${url}`);
             }
         }); 
+
+
+        //console.log('get',getRoutes);
+        //console.log('post',postRoutes);
+        //console.log('put',putRoutes);
+        //console.log('delete',deleteRoutes);
 
         server.listen(port);
         callback();
@@ -55,9 +90,29 @@ function app() {
                 post(`${route}${key}`, routes.postRoutesgetter()[key]);
             }
         }
+        for (let key in routes.putRoutesgetter()) {
+            if(key === '/') {
+                put(`${route}${key}`, routes.putRoutesgetter()[key]);
+                key = route;
+                put(key, routes.putRoutesgetter()['/']);
+            }
+            else {
+                put(`${route}${key}`, routes.putRoutesgetter()[key]);
+            }
+        }
+        for (let key in routes.deleteRoutesgetter()) {
+            if(key === '/') {
+                del(`${route}${key}`, routes.deleteRoutesgetter()[key]);
+                key = route;
+                del(key, routes.deleteRoutesgetter()['/']);
+            }
+            else {
+                del(`${route}${key}`, routes.deleteRoutesgetter()[key]);
+            }
+        }
     }
 
-    return { get, post, listen, use };
+    return { get, post, put, del, listen, use };
 }
 
 app.Router = require('./route');

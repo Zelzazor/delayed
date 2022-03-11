@@ -26,7 +26,7 @@ const delayed = require("delayed-web");
 const app = delayed();
 ```
 
-This module is currently capable of managing GET and POST requests:
+This module is currently capable of managing GET and POST requests (PUT and DELETE requests are available as an experimental feature):
 
 ```js
 app.get('/', (req, res)=>{
@@ -69,3 +69,17 @@ app.listen(3000, ()=>{
 ## The Future of Delayed
 
 This is only a learning project. Is not going to be very ambitious (I was just inspired by express and tried to recreate some of its features).
+
+## Use of Experimental Features
+
+These features are currently being tested, to use them you must clone this repository and require the dependency like so (assuming you are working on the same directory):
+
+```js
+const delayed = require(".");
+```
+
+Currently, these are the features that are experimental:
+
+- PUT requests
+- DELETE requests (to use them must use app.del() method)
+- Both of these request methods on custom routing.

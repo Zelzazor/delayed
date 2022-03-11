@@ -2,6 +2,9 @@
 function route () {
     let getRoutes ={};
     let postRoutes = {};
+    let putRoutes = {};
+    let deleteRoutes = {};
+
 
     function get(path, handler) {
         getRoutes[path] = handler;
@@ -11,6 +14,15 @@ function route () {
         postRoutes[path] = handler;
     }
 
+    function put(path, handler) {
+        putRoutes[path] = handler;
+    }
+
+    function del(path, handler) {
+        deleteRoutes[path] = handler;
+    }
+
+
     function getRoutesgetter() {
         return getRoutes;
     }
@@ -19,9 +31,17 @@ function route () {
         return postRoutes;
     }
 
+    function putRoutesgetter() {
+        return putRoutes;
+    }
+
+    function deleteRoutesgetter() {
+        return deleteRoutes;
+    }
+
     
 
-    return { get, post, getRoutesgetter, postRoutesgetter };
+    return { get, post, put, del, getRoutesgetter, postRoutesgetter, putRoutesgetter, deleteRoutesgetter };
 }
 
 module.exports = route;
