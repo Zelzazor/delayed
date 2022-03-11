@@ -5,6 +5,7 @@ function app() {
     const postRoutes = {};
     const putRoutes = {};
     const deleteRoutes = {};
+    const globalMiddlewares = [];
 
     function get(path, handler) {
         getRoutes[path] = handler;
@@ -49,6 +50,11 @@ function app() {
             }
 
             if (handler) { 
+                if(globalMiddlewares.length > 0) {
+                    for(let middleware of globalMiddlewares) {
+                        middleware(req, res);
+                    }
+                }
                 handler(req, res);
             } else {
                 res.statusCode = 404;
@@ -69,7 +75,16 @@ function app() {
 
     }
 
-    function use(route, routes) {
+    function use(param1, routes) {
+        if(typeof param1 === 'string') {
+            addRoute(param1, routes);
+        }
+        else if(typeof param1 === 'function' && typeof routes === 'undefined') {
+            globalMiddlewares.push(param1);
+        }
+    }
+
+    function addRoute(route, routes){
         for (let key in routes.getRoutesgetter()) {
             if(key === '/') {
                 get(`${route}${key}`, routes.getRoutesgetter()[key]);
@@ -111,6 +126,7 @@ function app() {
             }
         }
     }
+
 
     return { get, post, put, del, listen, use };
 }
