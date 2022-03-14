@@ -138,3 +138,7 @@ Currently, these are the features that are experimental:
         res.status(200).json(req.body);
     });
     ```
+- First-Order local middlewares.
+    ```js
+    routeUser.use(delayed.json) //Now all endpoints of this route (and only this route) has the JSON body parse middleware. 
+    ```

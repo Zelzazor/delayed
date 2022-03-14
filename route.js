@@ -4,6 +4,7 @@ function route () {
     let postRoutes = {};
     let putRoutes = {};
     let deleteRoutes = {};
+    let middlewares = [];
 
 
     function get(path, handler) {
@@ -39,9 +40,12 @@ function route () {
         return deleteRoutes;
     }
 
+    function use(fn){
+        middlewares.push(fn);
+    }
     
 
-    return { get, post, put, del, getRoutesgetter, postRoutesgetter, putRoutesgetter, deleteRoutesgetter };
+    return { get, post, put, del, use, getRoutesgetter, postRoutesgetter, putRoutesgetter, deleteRoutesgetter, middlewares };
 }
 
 module.exports = route;

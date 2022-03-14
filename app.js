@@ -9,6 +9,7 @@ function app() {
     const putRoutes = {};
     const deleteRoutes = {};
     const globalMiddlewares = [];
+    const localMiddlewares = {};
     const variables = {};
     const compilations = {};
 
@@ -100,6 +101,15 @@ function app() {
                         middleware(req, res);
                     }
                 }
+                if(Object.keys(localMiddlewares).length > 0) {
+                    Object.keys(localMiddlewares).forEach(key => {
+                        if(url.startsWith(key)) {
+                            for(let middleware of localMiddlewares[key]) {
+                                middleware(req, res);
+                            }
+                        }
+                    });
+                }
                 handler(req, res);
             } else {
                 res.statusCode = 404;
@@ -131,6 +141,8 @@ function app() {
     function use(param1, routes) {
         if(typeof param1 === 'string') {
             addRoute(param1, routes);
+            localMiddlewares[param1] = routes.middlewares;
+            
         }
         else if(typeof param1 === 'function' && typeof routes === 'undefined') {
             globalMiddlewares.push(param1);
