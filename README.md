@@ -80,12 +80,61 @@ const delayed = require(".");
 
 Currently, these are the features that are experimental:
 
-- PUT requests
-- DELETE requests (to use them must use app.del() method)
+- PUT requests.
+
+    ```js
+    app.put('/', (req, res)=>{
+    // PUT request
+    });
+    ```
+- DELETE requests (to use them must use ```app.del()``` method).
+
+    ```js
+    app.del('/', (req, res)=>{
+    // DELETE request
+    });
+    ```
 - Both of these request methods on custom routing.
-- Global middlewares (it's just a matter of creating them and adding them to the application with app.use(middleware))
-- Set variables (it's currently just used to determine the views directory and the view engine)
-- Compatibility with pug (need to set the "views" and "view engine" variables with app.set(key, value) and render the view via it's name with res.render(view, data), inside the endpoint handler)
-- Compatibility with EJS
-- res.status, res.render and res.json methods on response object
-- req.body, with the possibility of parsing JSON with the delayed.json middleware
+    ```js
+    userRoute.put('/', (req, res)=>{
+    // PUT request
+    });
+    userRoute.del('/', (req, res)=>{
+    // DELETE request
+    });
+    ```
+
+- Global middlewares (it's just a matter of creating them and adding them to the application with ```app.use(middleware)```).
+    ```js
+    function clock(req, _res) {
+        req.clock = new Date();
+    }
+    app.use(clock);
+    ```
+- Set variables (it's currently just used to determine the views directory and the view engine).
+    ```js
+    app.set('views', './views');
+    app.set('view engine', 'pug');
+    ```
+- Compatibility with pug and EJS (need to set the "views" and "view engine" variables with ```app.set(key, value)``` and render the view via it's name with ```res.render(view, data)```, inside the endpoint handler).
+    ```js
+    app.get('/', (req, res) => {
+        console.log("reached here");
+        res.render('index', {name: "Felipe"})
+    });
+    ```
+- ```res.status``` and ```res.json``` methods on response object.
+    ```js
+    app.get('/hello', (req, res) => {
+        console.log("reached here");
+        res.status(200).json({message: true})
+    });
+    ```
+- ```req.body```, with the possibility of parsing JSON with the ```delayed.json``` middleware.
+    ```js
+    app.use(delayed.json);
+    app.post('/', (req, res) => {
+        console.log(req.body);
+        res.status(200).json(req.body);
+    });
+    ```
