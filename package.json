@@ -11,7 +11,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2"
   },
   "repository": {
     "type": "git",

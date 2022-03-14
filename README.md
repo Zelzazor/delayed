@@ -83,3 +83,6 @@ Currently, these are the features that are experimental:
 - PUT requests
 - DELETE requests (to use them must use app.del() method)
 - Both of these request methods on custom routing.
+- Global middlewares (it's just a matter of creating them and adding them to the application with app.use(middleware))
+- Set variables (it's currently just used to determine the views directory and the view engine)
+- Compatibility with pug (need to set the "views" and "view engine" variables with app.set(key, value) and render the view via it's name with res.render(view, data), inside the endpoint handler)

@@ -1,4 +1,7 @@
 const http = require('http');
+const path = require('path');
+const fs = require('fs');
+
 
 function app() {
     const getRoutes = {};
@@ -6,6 +9,8 @@ function app() {
     const putRoutes = {};
     const deleteRoutes = {};
     const globalMiddlewares = [];
+    const variables = {};
+    const compilations = {};
 
     function get(path, handler) {
         getRoutes[path] = handler;
@@ -23,13 +28,31 @@ function app() {
         deleteRoutes[path] = handler;
     }
 
+    function set(name, value) {
+        variables[name] = value;
+    }
+
+    
+
 
     function listen(port, callback = () => { }) {
         
         const server = http.createServer(function (req, res) {
+
+            function render(name, dependencies = {}){
+                const result = compilations[name](dependencies)
+                res.writeHeader(200, {"Content-Type": "text/html"});
+                res.write(result); 
+                res.end();
+            }
+            
+            res.render = render;
+            
+            
             const url = req.url;
             const method = req.method;
             let handler = null;
+            
 
             switch(method) {
                 case 'GET':
@@ -63,6 +86,14 @@ function app() {
         }); 
 
 
+        
+        if(variables['view engine'] && variables['views']){
+            compileTemplate();
+        }
+
+        
+
+        //console.log("compilations", compilations)
         //console.log('get',getRoutes);
         //console.log('post',postRoutes);
         //console.log('put',putRoutes);
@@ -127,8 +158,27 @@ function app() {
         }
     }
 
+    function compileTemplate(){
+            const files = fs.readdirSync(variables['views']);
+            
+        
+            const filesPath = files.map(file => {
+                return path.join(variables['views'], file);
+            });
 
-    return { get, post, put, del, listen, use };
+            const template = require(variables['view engine']);
+            filesPath.forEach((file)=>{
+                const filename = path.parse(file).name;
+                if(variables['view engine'] === 'pug'){
+                    const compilation = template.compileFile(file);
+                    compilations[filename] = compilation;
+                }
+                
+            })
+    }
+
+
+    return { get, post, put, del, listen, use, set };
 }
 
 app.Router = require('./route');
