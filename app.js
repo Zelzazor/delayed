@@ -39,14 +39,28 @@ function app() {
         
         const server = http.createServer(function (req, res) {
 
+            
+            
+            function status (statusCode = 200){
+                res.statusCode = statusCode;
+                return {json, render};
+            }
+
             function render(name, dependencies = {}){
                 const result = compilations[name](dependencies)
-                res.writeHeader(200, {"Content-Type": "text/html"});
+                res.writeHead(res.statusCode, {'Content-Type': 'text/html'});
                 res.write(result); 
+                res.end();
+            }
+            function json(data){
+                res.writeHead(res.statusCode, {'Content-Type': 'application/json'})
+                res.write(JSON.stringify(data)); 
                 res.end();
             }
             
             res.render = render;
+            res.status = status;
+            res.json = json;
             
             
             const url = req.url;
