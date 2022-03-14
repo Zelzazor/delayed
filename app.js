@@ -37,9 +37,17 @@ function app() {
 
     function listen(port, callback = () => { }) {
         
-        const server = http.createServer(function (req, res) {
+        const server = http.createServer(async function (req, res) {
 
-            
+            const buffers = [];
+
+            for await(const chunk of req) {
+                buffers.push(chunk);
+            }
+
+            const body = Buffer.concat(buffers).toString();
+
+            req.body = body;
             
             function status (statusCode = 200){
                 res.statusCode = statusCode;
@@ -200,5 +208,6 @@ function app() {
 }
 
 app.Router = require('./route');
+app.json = require('./json');
 
 module.exports = app;

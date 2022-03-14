@@ -88,3 +88,4 @@ Currently, these are the features that are experimental:
 - Compatibility with pug (need to set the "views" and "view engine" variables with app.set(key, value) and render the view via it's name with res.render(view, data), inside the endpoint handler)
 - Compatibility with EJS
 - res.status, res.render and res.json methods on response object
+- req.body, with the possibility of parsing JSON with the delayed.json middleware
