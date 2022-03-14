@@ -173,6 +173,10 @@ function app() {
                     const compilation = template.compileFile(file);
                     compilations[filename] = compilation;
                 }
+                else if(variables['view engine'] === 'ejs'){
+                    const compilation = template.compile(file);
+                    compilations[filename] = compilation;
+                }
                 
             })
     }
